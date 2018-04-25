@@ -1,0 +1,7 @@
+*.egg-info
+dist/
+build/
+wheelhouse/
+htmlcov/
+__pycache__/
+.pytest_cache/
