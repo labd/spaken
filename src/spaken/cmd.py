@@ -16,8 +16,9 @@ from spaken.helpers import (
 
 class Command:
 
-    def run(self, bucket_uri, destination, requirements):
+    def run(self, bucket_uri, destination, requirements, no_binary=':all:'):
         start_time = time.time()
+        self.no_binary_value = no_binary
 
         if not os.path.exists(destination):
             os.makedirs(destination, mode=0o700, exist_ok=True)
@@ -87,7 +88,7 @@ class Command:
         pip_command([
             'wheel',
             '--requirement', tmp_reqfile,
-            '--no-binary', ':all:',
+            '--no-binary', self.no_binary_value,
             '--wheel-dir', self._temp_path
         ])
 
@@ -120,10 +121,11 @@ class Command:
 @click.option('--bucket-uri', required=True)
 @click.option('--dest', default='wheelhouse')
 @click.option('--requirement', '-r', required=True)
+@click.option('--no-binary', type=str, default=':all:')
 @click.version_option(version=__version__)
-def main(bucket_uri, dest, requirement):
+def main(bucket_uri, dest, requirement, no_binary):
     cmd = Command()
-    cmd.run(bucket_uri, dest, requirement)
+    cmd.run(bucket_uri, dest, requirement, no_binary)
 
 
 if __name__ == '__main__':

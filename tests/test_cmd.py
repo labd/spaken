@@ -10,7 +10,8 @@ def test_cli(isolated_cli_runner, s3_storage, monkeypatch):
     kwargs = [
         '--bucket-uri', 's3://%s/my-project/' % s3_storage['bucket'],
         '--dest', 'wheelhouse/',
-        '--requirement', 'requirements.txt'
+        '--requirement', 'requirements.txt',
+        '--no-binary', ':all:'
     ]
 
     with open('requirements.txt', 'w') as fh:
