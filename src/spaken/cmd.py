@@ -16,9 +16,9 @@ from spaken.helpers import (
 
 class Command:
 
-    def run(self, bucket_uri, destination, requirements, no_binary=':all:'):
+    def run(self, bucket_uri, destination, requirements, binary_packages=None):
         start_time = time.time()
-        self.no_binary_value = no_binary
+        self.binary_packages = binary_packages
 
         if not os.path.exists(destination):
             os.makedirs(destination, mode=0o700, exist_ok=True)
@@ -85,12 +85,16 @@ class Command:
         tmp_reqfile = os.path.join(self._temp_path, 'requirements.txt')
         write_requirements(packages, self._pip_arguments, tmp_reqfile)
 
+        if not self.binary_packages:
+            binary_flags = ['--no-binary', ':all:']
+        else:
+            binary_flags = ['--only-binary', self.binary_packages]
+
         pip_command([
             'wheel',
             '--requirement', tmp_reqfile,
-            '--no-binary', self.no_binary_value,
             '--wheel-dir', self._temp_path
-        ])
+        ] + binary_flags)
 
     def upload_wheel_files(self):
         """Upload all wheel files in the given path to the given bucket uri"""
@@ -121,11 +125,11 @@ class Command:
 @click.option('--bucket-uri', required=True)
 @click.option('--dest', default='wheelhouse')
 @click.option('--requirement', '-r', required=True)
-@click.option('--no-binary', type=str, default=':all:')
+@click.option('--binary-packages', type=str, default=None)
 @click.version_option(version=__version__)
-def main(bucket_uri, dest, requirement, no_binary):
+def main(bucket_uri, dest, requirement, binary_packages):
     cmd = Command()
-    cmd.run(bucket_uri, dest, requirement, no_binary)
+    cmd.run(bucket_uri, dest, requirement, binary_packages)
 
 
 if __name__ == '__main__':
