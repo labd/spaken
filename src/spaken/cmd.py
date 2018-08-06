@@ -85,15 +85,14 @@ class Command:
         tmp_reqfile = os.path.join(self._temp_path, 'requirements.txt')
         write_requirements(packages, self._pip_arguments, tmp_reqfile)
 
-        if not self.binary_packages:
-            binary_flags = ['--no-binary', ':all:']
-        else:
+        if self.binary_packages:
             binary_flags = ['--only-binary', self.binary_packages]
 
         pip_command([
             'wheel',
             '--requirement', tmp_reqfile,
-            '--wheel-dir', self._temp_path
+            '--wheel-dir', self._temp_path,
+            '--no-binary', ':all:'
         ] + binary_flags)
 
     def upload_wheel_files(self):
