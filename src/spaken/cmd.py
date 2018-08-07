@@ -85,6 +85,7 @@ class Command:
         tmp_reqfile = os.path.join(self._temp_path, 'requirements.txt')
         write_requirements(packages, self._pip_arguments, tmp_reqfile)
 
+        binary_flags = []
         if self.binary_packages:
             binary_flags = ['--only-binary', self.binary_packages]
 
