@@ -85,16 +85,18 @@ class Command:
         tmp_reqfile = os.path.join(self._temp_path, 'requirements.txt')
         write_requirements(packages, self._pip_arguments, tmp_reqfile)
 
-        binary_flags = []
-        if self.binary_packages:
-            binary_flags = ['--only-binary', self.binary_packages]
-
-        pip_command([
+        cmd_args = [
             'wheel',
             '--requirement', tmp_reqfile,
             '--wheel-dir', self._temp_path,
-            '--no-binary', ':all:'
-        ] + binary_flags)
+        ]
+        if self.binary_packages:
+            cmd_args.extend([
+                '--no-binary', ':all:',
+                '--only-binary', self.binary_packages,
+            ])
+
+        pip_command(cmd_args)
 
     def upload_wheel_files(self):
         """Upload all wheel files in the given path to the given bucket uri"""

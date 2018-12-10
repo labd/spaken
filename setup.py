@@ -6,7 +6,7 @@ with open('README.rst', 'r') as fh:
 
 
 tests_require = [
-    'moto==1.3.3',
+    'moto>=1.3.4',
     'pytest>=3.5.1',
     'pytest-cov>=2.5.1',
     'pytest-click',
@@ -21,10 +21,11 @@ setup(
     author="Michael van Tellingen",
     author_email="michaelvantellingen@gmail.com",
     install_requires=[
-        'boto3',
+        'boto3>=1.7.84,<1.8'
         'click>=6.7',
         'pip>=10.0',
         'packaging>=17.0',
+        'wheel==0.31.1',
     ],
     tests_require=tests_require,
     extras_require={'test': tests_require},
