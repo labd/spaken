@@ -21,7 +21,7 @@ setup(
     author="Michael van Tellingen",
     author_email="michaelvantellingen@gmail.com",
     install_requires=[
-        'boto3>=1.7.84,<1.8'
+        'boto3>=1.7.84,<1.8',
         'click>=6.7',
         'pip>=10.0',
         'packaging>=17.0',
