@@ -1,19 +1,32 @@
 import operator
+import os.path
+import re
 from collections import defaultdict
 
 from packaging.utils import canonicalize_name
 from packaging.version import parse as parse_version
-from wheel.install import WheelFile as _WheelFile
-from wheel.install import BadWheelFile
+
+
+class WheelError(ValueError):
+    pass
 
 
 class WheelFile:
 
-    def __init__(self, filename):
-        self.filename = filename
+    # Regular expression from wheel/wheelfile.py
+    _wheel_info_re = re.compile(
+        r"""^(?P<namever>(?P<name>.+?)-(?P<ver>.+?))(-(?P<build>\d[^-]*))?
+        -(?P<pyver>.+?)-(?P<abi>.+?)-(?P<plat>.+?)\.whl$""",
+        re.VERBOSE)
 
-        whl = _WheelFile(self.filename)
-        self._info = whl.parsed_filename.groupdict()
+    def __init__(self, filename):
+        basename = os.path.basename(filename)
+        self.filename = filename
+        self._info = self._wheel_info_re.match(basename)
+
+        if self._info is None:
+            raise WheelError("Bad wheel filename {!r}".format(basename))
+
 
     @property
     def name(self):
@@ -31,7 +44,7 @@ class WheelSet:
     def add(self, filename):
         try:
             whl = WheelFile(filename)
-        except BadWheelFile:
+        except WheelError:
             return False
         else:
             self._wheels[whl.name].append(whl)

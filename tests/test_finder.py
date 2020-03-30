@@ -5,8 +5,8 @@ from spaken.helpers import Requirement
 def test_find():
     packages = [
         'django_healthchecks-1.4.0-py2.py3-none-any.whl',
-        'django-healthchecks-1.3.0-py2.py3-none-any.whl',
-        'django-healthchecks-1.3.1-py2.py3-none-any.whl',
+        'django_healthchecks-1.3.0-py2.py3-none-any.whl',
+        'django_healthchecks-1.3.1-py2.py3-none-any.whl',
     ]
 
     wheel_set = finder.WheelSet()
@@ -14,15 +14,19 @@ def test_find():
         wheel_set.add(name)
 
     whl = wheel_set.find(Requirement('django-healthchecks==1.4.0'))
+    assert whl is not None
     assert whl.filename == 'django_healthchecks-1.4.0-py2.py3-none-any.whl'
 
     whl = wheel_set.find(Requirement('django-healthchecks<1.4.0'))
-    assert whl.filename == 'django-healthchecks-1.3.1-py2.py3-none-any.whl'
+    assert whl is not None
+    assert whl.filename == 'django_healthchecks-1.3.1-py2.py3-none-any.whl'
 
     whl = wheel_set.find(Requirement('django-healthchecks>=1.3.0,<1.4.0'))
-    assert whl.filename == 'django-healthchecks-1.3.1-py2.py3-none-any.whl'
+    assert whl is not None
+    assert whl.filename == 'django_healthchecks-1.3.1-py2.py3-none-any.whl'
 
     whl = wheel_set.find(Requirement('django-healthchecks'))
+    assert whl is not None
     assert whl.filename == 'django_healthchecks-1.4.0-py2.py3-none-any.whl'
 
 
@@ -43,7 +47,7 @@ def test_collect_filenames():
     filenames = [
         'django_healthchecks-1.4.0-py2.py3-none-any.invalid',
         'django_healthchecks-1.4.0-py2.py3-none-any.whl',
-        'django-healthchecks-1.3.0-py2.py3-none-any.whl',
+        'django_healthchecks-1.3.0-py2.py3-none-any.whl',
         'django-healthchecks-1.3.1-py2.py3-none-any.whl',
     ]
 

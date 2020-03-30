@@ -25,7 +25,6 @@ setup(
         'click>=6.7',
         'pip>=10.0',
         'packaging>=17.0',
-        'wheel==0.31.1',
     ],
     tests_require=tests_require,
     extras_require={'test': tests_require},
