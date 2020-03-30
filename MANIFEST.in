@@ -5,7 +5,7 @@ recursive-exclude * *
 include MANIFEST.in
 include CHANGES
 include LICENSE
-include README.rst
+include README.md
 include setup.cfg
 include setup.py
 
