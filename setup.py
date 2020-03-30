@@ -1,44 +1,36 @@
 from setuptools import find_packages, setup
 
 
-with open('README.rst', 'r') as fh:
-    description = '\n'.join(fh.readlines())
+with open("README.rst", "r") as fh:
+    description = "\n".join(fh.readlines())
 
 
 tests_require = [
-    'moto>=1.3.4',
-    'pytest>=3.5.1',
-    'pytest-cov>=2.5.1',
-    'pytest-click',
+    "coverage[toml]",
+    "moto>=1.3.4",
+    "pytest>=3.5.1",
+    "pytest-cov>=2.5.1",
+    "pytest-click",
 ]
 
 
 setup(
-    name='spaken',
-    version='0.1.6',
+    name="spaken",
+    version="0.1.6",
     description=description,
-    url='https://github.com/labd/spaken',
+    url="https://github.com/labd/spaken",
     author="Michael van Tellingen",
     author_email="michaelvantellingen@gmail.com",
-    install_requires=[
-        'boto3>=1.7.84,<1.8',
-        'click>=6.7',
-        'pip>=10.0',
-        'packaging>=17.0',
-    ],
+    install_requires=["boto3>=1.7.84", "click>=6.7", "pip>=10.0", "packaging>=17.0",],
     tests_require=tests_require,
-    extras_require={'test': tests_require},
-    package_dir={'': 'src'},
-    packages=find_packages('src'),
-    license='MIT',
+    extras_require={"test": tests_require},
+    package_dir={"": "src"},
+    packages=find_packages("src"),
+    license="MIT",
     classifiers=[
-        'Development Status :: 4 - Beta',
-        'License :: OSI Approved :: MIT License',
+        "Development Status :: 4 - Beta",
+        "License :: OSI Approved :: MIT License",
     ],
-    entry_points={
-        'console_scripts': {
-            'spaken = spaken.cmd:main'
-        }
-    },
+    entry_points={"console_scripts": {"spaken = spaken.cmd:main"}},
     zip_safe=False,
 )
