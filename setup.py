@@ -23,7 +23,7 @@ tests_require = [
 
 setup(
     name="spaken",
-    version="0.2.0",
+    version="0.2.1",
     description="Optimize Pip installs for CI/CD pipelines",
     long_description=long_description,
     long_description_content_type="text/markdown",
