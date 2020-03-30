@@ -1,8 +1,14 @@
+import re
 from setuptools import find_packages, setup
 
 
-with open("README.rst", "r") as fh:
-    description = "\n".join(fh.readlines())
+with open("README.md") as fh:
+    long_description = re.sub(
+        "<!-- start-no-pypi -->.*<!-- end-no-pypi -->\n",
+        "",
+        fh.read(),
+        flags=re.M | re.S,
+    )
 
 
 tests_require = [
@@ -18,7 +24,9 @@ tests_require = [
 setup(
     name="spaken",
     version="0.2.0",
-    description=description,
+    description="Optimize Pip installs for CI/CD pipelines",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
     url="https://github.com/labd/spaken",
     author="Michael van Tellingen",
     author_email="michaelvantellingen@gmail.com",
