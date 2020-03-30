@@ -41,11 +41,11 @@ class WheelFile:
 
     @property
     def name(self):
-        return canonicalize_name(self._info["name"])
+        return canonicalize_name(self._info.group("name"))
 
     @property
     def version(self):
-        return parse_version(self._info["ver"])
+        return parse_version(self._info.group("ver"))
 
 
 class WheelSet:
