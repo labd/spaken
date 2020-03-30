@@ -1,17 +1,16 @@
 import os
 from urllib.parse import urlparse
-from botocore.exceptions import BotoCoreError, ClientError
 
 import boto3
+from botocore.exceptions import BotoCoreError, ClientError
 
 from spaken.exceptions import StorageException
 
 
 class S3Storage:
-
     def __init__(self, uri):
         bucket_name, bucket_path = parse_bucket_uri(uri)
-        s3 = boto3.resource('s3')
+        s3 = boto3.resource("s3")
         try:
             s3.meta.client.head_bucket(Bucket=bucket_name)
         except (BotoCoreError, ClientError) as exc:
@@ -30,7 +29,7 @@ class S3Storage:
 
     def upload(self, source, filename):
         key = self._path + filename
-        with open(source, 'rb') as fh:
+        with open(source, "rb") as fh:
             self._bucket.put_object(Key=key, Body=fh.read())
 
     def get(self, filename, destination):
@@ -44,9 +43,9 @@ def parse_bucket_uri(uri):
     path = result.path
     if path:
         path = path[1:]
-    if not path.endswith('/'):
-        path += '/'
+    if not path.endswith("/"):
+        path += "/"
 
     # Remove leading /
-    path = path.lstrip('/')
+    path = path.lstrip("/")
     return result.netloc, path

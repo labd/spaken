@@ -1,7 +1,7 @@
-import sys
 import operator
 import os.path
 import re
+import sys
 from collections import defaultdict
 
 from packaging.utils import canonicalize_name
@@ -18,7 +18,8 @@ class WheelFile:
     _wheel_info_re = re.compile(
         r"""^(?P<namever>(?P<name>.+?)-(?P<ver>.+?))(-(?P<build>\d[^-]*))?
         -(?P<pyver>.+?)-(?P<abi>.+?)-(?P<plat>.+?)\.whl$""",
-        re.VERBOSE)
+        re.VERBOSE,
+    )
 
     def __init__(self, filename):
         basename = os.path.basename(filename)
@@ -30,7 +31,7 @@ class WheelFile:
 
     def matches_pyversion(self):
         py_version = "%s%s" % (sys.version_info.major, sys.version_info.minor)
-        if self._info.group('abi') == "none":
+        if self._info.group("abi") == "none":
             return True
         else:
             for version in self._info.group("pyver").split("."):
@@ -40,11 +41,11 @@ class WheelFile:
 
     @property
     def name(self):
-        return canonicalize_name(self._info['name'])
+        return canonicalize_name(self._info["name"])
 
     @property
     def version(self):
-        return parse_version(self._info['ver'])
+        return parse_version(self._info["ver"])
 
 
 class WheelSet:
@@ -68,7 +69,7 @@ class WheelSet:
         if not candidates:
             return
 
-        candidates.sort(key=operator.attrgetter('version'), reverse=True)
+        candidates.sort(key=operator.attrgetter("version"), reverse=True)
         for candidate in candidates:
             if requirement.specifier.contains(candidate.version):
                 return candidate

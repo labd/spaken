@@ -10,6 +10,10 @@ install:
 test:
 	pytest
 
+format:
+	isort --recursive src tests
+	black src/ tests/
+
 coverage:
 	py.test --cov=spaken --cov-report=term-missing --cov-report=html
 
