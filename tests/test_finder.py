@@ -1,3 +1,4 @@
+import pretend
 from spaken import finder
 from spaken.helpers import Requirement
 
@@ -61,7 +62,8 @@ def test_collect_filenames():
     assert missing == [Requirement("wsgi-basic-auth-healthchecks==1.1.0")]
 
 
-def test_binary_package():
+def test_binary_package(monkeypatch):
+    monkeypatch.setattr("sys.version_info", pretend.stub(major=3, minor=8))
     filenames = [
         "Pillow-7.0.0-cp37-cp37m-manylinux1_x86_64.whl",
     ]

@@ -8,6 +8,7 @@ with open("README.rst", "r") as fh:
 tests_require = [
     "coverage[toml]",
     "moto>=1.3.4",
+    "pretend",
     "pytest>=3.5.1",
     "pytest-cov>=2.5.1",
     "pytest-click",
