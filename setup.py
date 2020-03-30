@@ -17,7 +17,7 @@ tests_require = [
 
 setup(
     name="spaken",
-    version="0.1.6",
+    version="0.2.0",
     description=description,
     url="https://github.com/labd/spaken",
     author="Michael van Tellingen",
