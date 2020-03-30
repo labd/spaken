@@ -1,3 +1,4 @@
+import sys
 import operator
 import os.path
 import re
@@ -27,6 +28,15 @@ class WheelFile:
         if self._info is None:
             raise WheelError("Bad wheel filename {!r}".format(basename))
 
+    def matches_pyversion(self):
+        py_version = "%s%s" % (sys.version_info.major, sys.version_info.minor)
+        if self._info.group('abi') == "none":
+            return True
+        else:
+            for version in self._info.group("pyver").split("."):
+                if version.endswith(py_version):
+                    return True
+        return False
 
     @property
     def name(self):
@@ -47,7 +57,8 @@ class WheelSet:
         except WheelError:
             return False
         else:
-            self._wheels[whl.name].append(whl)
+            if whl.matches_pyversion():
+                self._wheels[whl.name].append(whl)
         return True
 
     def find(self, requirement):

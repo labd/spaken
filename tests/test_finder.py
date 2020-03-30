@@ -59,3 +59,15 @@ def test_collect_filenames():
     result, missing = finder.collect_filenames(filenames, requirements)
     assert result == ['django_healthchecks-1.4.0-py2.py3-none-any.whl']
     assert missing == [Requirement('wsgi-basic-auth-healthchecks==1.1.0')]
+
+def test_binary_package():
+    filenames = [
+        'Pillow-7.0.0-cp37-cp37m-manylinux1_x86_64.whl',
+    ]
+
+    requirements = [
+        Requirement('Pillow==7.0.0'),
+    ]
+
+    result, missing = finder.collect_filenames(filenames, requirements)
+    assert result == []
